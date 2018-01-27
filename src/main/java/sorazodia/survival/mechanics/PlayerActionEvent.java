@@ -108,6 +108,9 @@ public class PlayerActionEvent
 	@SubscribeEvent
 	public void blockRightClick(RightClickBlock event)
 	{
+		if (!ConfigHandler.doToolBlockPlace())
+			return;
+
 		EntityPlayer player = event.getEntityPlayer();
 		ItemStack heldStack = event.getItemStack();
 		World world = event.getWorld();
@@ -127,7 +130,7 @@ public class PlayerActionEvent
 			{
 				player.swingArm(event.getHand());
 
-				if (ConfigHandler.doToolBlockPlace() && (heldStack.getItem() instanceof ItemTool || heldStack.getItem().isDamageable()))
+				if ((heldStack.getItem() instanceof ItemTool || heldStack.getItem().isDamageable()))
 					placeBlocks(world, player, blockState, blockState.getBlock(), heldStack, event.getPos(), offset, event.getHand());
 
 			}
